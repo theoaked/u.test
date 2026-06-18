@@ -2,10 +2,10 @@ package br.senai.sp.informatica.tcc.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +37,9 @@ public class AlunoController implements ServletContextAware {
 	@Autowired
 	private InstituicaoDao daoI;
 
+	@Autowired
+	private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
 	@RequestMapping("/form_aluno")
 	public String form(Model model, HttpSession session) {
 		model.addAttribute("area", daoA.getLista());
@@ -50,6 +53,7 @@ public class AlunoController implements ServletContextAware {
 			return "aluno/form";
 		}
 		if (aluno.getId() == null) {
+			aluno.setSenha(passwordEncoder.encode(aluno.getSenha()));
 			dao.inserir(aluno);
 			return "aluno/sucesso";
 		} else {

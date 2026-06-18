@@ -2,10 +2,10 @@ package br.senai.sp.informatica.tcc.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +33,9 @@ public class AdministradorController implements ServletContextAware {
 
 	@Autowired
 	private AdministradorDao administradorDao;
+
+	@Autowired
+	private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
 	@RequestMapping("/form_administrador")
 	public String form(Model model, HttpSession session) {
@@ -73,6 +76,7 @@ public class AdministradorController implements ServletContextAware {
 			return "sem_acesso";
 		} else {
 			if (administrador.getId() == null) {
+				administrador.setSenha(passwordEncoder.encode(administrador.getSenha()));
 				dao.inserir(administrador);
 				return "administrador/sucesso";
 			} else {
@@ -82,13 +86,14 @@ public class AdministradorController implements ServletContextAware {
 			}
 		}
 	}
-	
+
 	@RequestMapping("/logou/salvar_administrador")
 	public String salvar1(@Valid Administrador administrador, BindingResult result, HttpSession session) {
 		if (session.getAttribute("admLogado") == null) {
 			return "sem_acesso";
 		} else {
 			if (administrador.getId() == null) {
+				administrador.setSenha(passwordEncoder.encode(administrador.getSenha()));
 				dao.inserir(administrador);
 				return "administrador/sucesso";
 			} else {

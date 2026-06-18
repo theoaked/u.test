@@ -2,10 +2,10 @@ package br.senai.sp.informatica.tcc.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,6 +42,9 @@ public class ProfessorController implements ServletContextAware {
 	@Autowired
 	private ProfessorDao daoProf;
 
+	@Autowired
+	private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
 	@RequestMapping("/form_professor")
 	public String form(Model model, HttpSession session) {
 		model.addAttribute("area", daoA.getLista());
@@ -76,6 +79,7 @@ public class ProfessorController implements ServletContextAware {
 	@RequestMapping("/salvar_professor")
 	public String salvar(@Valid Professor professor, BindingResult result, HttpSession session) {
 		if (professor.getId() == null) {
+			professor.setSenha(passwordEncoder.encode(professor.getSenha()));
 			dao.inserir(professor);
 			return "professor/sucesso";
 		} else {
@@ -84,10 +88,11 @@ public class ProfessorController implements ServletContextAware {
 
 		}
 	}
-	
+
 	@RequestMapping("/logou/salvar_professor")
 	public String salvar1(@Valid Professor professor, BindingResult result, HttpSession session) {
 		if (professor.getId() == null) {
+			professor.setSenha(passwordEncoder.encode(professor.getSenha()));
 			dao.inserir(professor);
 			return "professor/sucesso";
 		} else {

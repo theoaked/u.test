@@ -2,7 +2,7 @@ package br.senai.sp.informatica.tcc.restcontroller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +47,9 @@ public class AlunoRestController implements ServletContextAware {
 	@Autowired
 	private GabaritoDao gabritoDao;
 
+	@Autowired
+	private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
 	// manda objeto ALUNO via id
 	@RequestMapping(value = "/listaById/{idAluno}", method = RequestMethod.GET, headers = "Accept=application/json;charset=UTF-8")
 	public List<Aluno> listaById(@PathVariable(value = "idAluno") long idAluno) {
@@ -68,14 +71,17 @@ public class AlunoRestController implements ServletContextAware {
 	@RequestMapping(value = "/logar", method = RequestMethod.POST, headers = "Accept=application/json;charset=UTF-8")
 	public Usuario logar(@RequestBody String json) {
 		System.out.println(json);
-		AlunoDao daoAluno = (AlunoDao) dao;
 		Aluno usuario;
 		try {
 			JSONObject jsonObject = new JSONObject(json);
 			String login = jsonObject.getString("login");
 			String senha = jsonObject.getString("senha");
-			int tipoUsuario = jsonObject.getInt("tipoUsuario");
-			usuario = daoAluno.logar(login, senha, tipoUsuario);
+			Aluno candidato = alunoDao.buscarPorLogin(login);
+			if (candidato != null && passwordEncoder.matches(senha, candidato.getSenha())) {
+				usuario = candidato;
+			} else {
+				usuario = null;
+			}
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);

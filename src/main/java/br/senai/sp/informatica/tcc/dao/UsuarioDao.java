@@ -3,9 +3,9 @@ package br.senai.sp.informatica.tcc.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -56,6 +56,17 @@ public class UsuarioDao implements InterfaceDao<Usuario> {
 		} else {
 			return null;
 		}
+	}
+
+	// Busca pelo login (unico na tabela Usuario). Como a heranca e JOINED, a query
+	// polimorfica retorna a instancia concreta (Administrador/Professor/Aluno),
+	// permitindo verificar a senha com BCrypt fora do banco.
+	public Usuario buscarPorLogin(String login) {
+		TypedQuery<Usuario> query = manager.createQuery(
+				"select u from Usuario u where u.login = :login", Usuario.class);
+		query.setParameter("login", login);
+		List<Usuario> resultado = query.getResultList();
+		return resultado.isEmpty() ? null : resultado.get(0);
 	}
 
 }

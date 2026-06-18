@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<link
+	href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600'
+	rel='stylesheet' type='text/css'>
+
+<link th:href="@{/resources/form-css/css/normalize.css}" rel="stylesheet">
+<link th:href="@{/resources/form-css/css/style.css}" rel="stylesheet">
+
+<div class="form2">
+	<div class="tab-content">
+		<h1>EVENTO CADASTRADO!</h1>
+		<h3>Resumo da avaliação:</h3>
+			<h3>Evento: <span th:text="${evento?.nome}"></span></h3>
+			<h3>Data: <span th:text="${evento?.data?.time}"></span></h3>
+
+				<table th:each="gabarito : ${gabaritos}">
+					<thead>
+					<tr>
+						<th><h4>NOME DO ALUNO</h4></th>
+						<th th:each="resposta, st : ${gabarito.respostas}"><h4>Q<span th:text="${st.count}"></span></h4></th>
+						<th th:each="alternativa, st : ${gabarito.alternativas}"><h4>Q<span th:text="${gabarito.respostas.size() + st.count}"></span></h4></th>
+						<th><h4>NOTA</h4></th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><h4 th:text="${gabarito.aluno.nome}"></h4></td>
+							<th:block th:each="resposta : ${gabarito.respostas}">
+								<td th:if="${resposta.correta == 0}"><h4 class="glyphicon glyphicon-remove"></h4></td>
+								<td th:if="${resposta.correta == 1}"><h4 class="glyphicon glyphicon-minus"></h4></td>
+								<td th:if="${resposta.correta == 2}"><h4 class="glyphicon glyphicon-ok"></h4></td>
+							</th:block>
+							<th:block th:each="alternativa : ${gabarito.alternativas}">
+								<td th:if="${alternativa.correta}"><h4 class="glyphicon glyphicon-ok"></h4></td>
+								<td th:unless="${alternativa.correta}"><h4 class="glyphicon glyphicon-remove"></h4></td>
+							</th:block>
+							<td><h4 th:text="${gabarito.nota}"></h4></td>
+						</tr>
+					</tbody>
+				</table>
+
+		<hr>
+	</div>
+
+
+</div>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>

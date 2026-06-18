@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<div class="row">
+	<div class="col-sm-4 col-sm-offset-4">
+		<h1><span class="glyphicon glyphicon-saved"></span></h1>
+		<h2>Instituicao <span th:text="${instituicao?.nome}">nome</span> alterada com sucesso!</h2>
+	</div>
+</div>
+<script lang="JavaScript">
+	setTimeout("document.location = 'lista_instituicao'", 4500)
+</script>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>

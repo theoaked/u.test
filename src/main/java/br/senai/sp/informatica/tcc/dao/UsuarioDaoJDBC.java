@@ -1,48 +1,25 @@
 package br.senai.sp.informatica.tcc.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import br.senai.sp.informatica.tcc.model.Aluno;
 
 @Repository
 public class UsuarioDaoJDBC {
-	private Connection conexao;
 
-	@PersistenceContext
-	private EntityManager manager;
+	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public UsuarioDaoJDBC(DataSource dataSource) {
-		try {
-			this.conexao = dataSource.getConnection();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public UsuarioDaoJDBC(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// adiciona enunciado e area na questao dissertativa
+	// aumenta o level (pontuacao acumulada) do aluno
 	public void aumentarLevel(Aluno a, double x) {
 		String sql = "UPDATE aluno SET level = ? WHERE id= ?";
-		try {
-			PreparedStatement stmt = conexao.prepareStatement(sql);
-			System.out.println("OOOOOOOOOO x:"+x);
-			System.out.println("OOOOOOOOOO level anterior: "+a.getLevel());
-			stmt.setDouble(1, a.getLevel()+x);
-			stmt.setLong(2, a.getId());
-			stmt.execute();
-			stmt.close();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		jdbcTemplate.update(sql, a.getLevel() + x, a.getId());
 	}
-
 
 }

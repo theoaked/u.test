@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: u.test
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:12345}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+      naming:
+        # Preserva os nomes de coluna camelCase originais (dataInativa, aplicacoesA,
+        # tipoUsuario...) para nao quebrar o SQL nativo dos *DaoJDBC e o schema legado.
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: false
+        default_schema: public
+    show-sql: true
+    open-in-view: true
+
+  # O seed inicial e feito por DataSeeder (CommandLineRunner), usando BCrypt.
+  sql:
+    init:
+      mode: never
+
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 3MB
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug

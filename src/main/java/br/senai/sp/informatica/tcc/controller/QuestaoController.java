@@ -2,10 +2,10 @@ package br.senai.sp.informatica.tcc.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,7 +68,7 @@ public class QuestaoController implements ServletContextAware {
 		}
 	}
 
-	// decis„o entre quest„o alternativa ou dissertativa
+	// decis√£o entre quest√£o alternativa ou dissertativa
 	@RequestMapping("/criar_questao1")
 	public String salvar(@Valid Questao questao, BindingResult result, HttpSession session, Model model) {
 		if (session.getAttribute("profLogado") == null) {

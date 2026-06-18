@@ -1,10 +1,12 @@
 package br.senai.sp.informatica.tcc.dao;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -59,9 +61,18 @@ public class QuestaoDao implements InterfaceDao<Questao> {
 	}
 	
 	public List<Questao> getQuestaoAleatoria(long id, int limite) {
-		TypedQuery<Questao> query = manager.createQuery("select q from Questao q where q.area.id = :id and q.ativa=TRUE order by rand()", Questao.class).setMaxResults(limite);
+		// O original usava "order by rand()" (sintaxe MySQL, invalida em JPQL/PostgreSQL).
+		// Mantemos o mesmo comportamento - N questoes ativas aleatorias da area -
+		// embaralhando em memoria, de forma independente do dialeto do banco.
+		TypedQuery<Questao> query = manager.createQuery(
+				"select q from Questao q where q.area.id = :id and q.ativa=TRUE", Questao.class);
 		query.setParameter("id", id);
-		return query.getResultList();
+		List<Questao> questoes = new ArrayList<>(query.getResultList());
+		Collections.shuffle(questoes);
+		if (questoes.size() > limite) {
+			return new ArrayList<>(questoes.subList(0, limite));
+		}
+		return questoes;
 	}
 
 }

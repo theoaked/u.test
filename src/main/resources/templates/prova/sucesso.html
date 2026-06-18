@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<link
+	href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600'
+	rel='stylesheet' type='text/css'>
+
+<link th:href="@{/resources/form-css/css/normalize.css}" rel="stylesheet">
+<link th:href="@{/resources/form-css/css/style.css}" rel="stylesheet">
+
+<div class="form">
+	<div class="tab-content">
+		<h1>PROVA CADASTRADA COM SUCESSO! </h1>
+		<h2> _&gt; Título: <span th:text="${prova?.titulo}"></span></h2>
+		<h2> _&gt; Questões: <span th:text="${prova?.questoes != null ? prova.questoes.size() : 0}"></span></h2>
+		<h2> _&gt; Tempo: <span th:text="${prova?.tempo}"></span> hora(s)</h2>
+		<hr>
+		<a th:href="@{/lista_prova1}" class="btn btn-lg btn-dark" style="width: 100%">Listar minhas provas</a><hr>
+		<a th:href="@{/form_prova}" class="btn btn-lg btn-dark" style="width: 100%">Cadastrar outra prova</a><hr>
+		<a th:href="@{/form_evento}" class="btn btn-lg btn-dark" style="width: 100%">Criar um evento</a>
+	</div>
+</div>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>

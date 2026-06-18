@@ -1,6 +1,6 @@
 package br.senai.sp.informatica.tcc.model;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Administrador extends Usuario{

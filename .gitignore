@@ -1,0 +1,19 @@
+# Maven
+target/
+
+# Eclipse / IDE (projeto agora e Maven; arquivos do Eclipse nao sao mais versionados)
+.classpath
+.project
+.settings/
+bin/
+build/
+
+# IntelliJ / VS Code
+.idea/
+*.iml
+.vscode/
+
+# Logs / OS
+*.log
+.DS_Store
+Thumbs.db

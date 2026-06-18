@@ -2,8 +2,8 @@ package br.senai.sp.informatica.tcc.model;
 
 import java.util.Calendar;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<link
+	href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600'
+	rel='stylesheet' type='text/css'>
+
+<link th:href="@{/resources/form-css/css/normalize.css}" rel="stylesheet">
+<link th:href="@{/resources/form-css/css/style.css}" rel="stylesheet">
+
+<div class="form">
+	<div class="tab-content">
+		<h2>Bem Vindo ao u.test, usuário <i th:text="${administrador?.login}">login</i></h2>
+		<h2>Seu cadastro foi concluído com sucesso.</h2>
+		<h2>Seus privilégios como administrador do sistema incluem listagem de usuários e dados do sistema e muito mais!</h2>
+		<h2>Use o menu na lateral direita para logar e começar seu trabalho.</h2>
+	</div>
+</div>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>

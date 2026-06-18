@@ -1,12 +1,12 @@
 package br.senai.sp.informatica.tcc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -17,7 +17,8 @@ public class Usuario{
 	private Long id;
 	@Column(unique = true, length=15)
 	private String login;
-	@Column(length=15)
+	// Ampliado de 15 para 60 caracteres para acomodar o hash BCrypt.
+	@Column(length=60)
 	private String senha;
 	private int tipoUsuario;
 	

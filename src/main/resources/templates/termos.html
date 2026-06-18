@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<link
+	href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600'
+	rel='stylesheet' type='text/css'>
+
+<link th:href="@{/resources/form-css/css/normalize.css}" rel="stylesheet">
+<link th:href="@{/resources/form-css/css/style.css}" rel="stylesheet">
+
+<div class="form">
+	<div class="tab-content">
+		<h1>Termos de uso</h1>
+		<form action="form_professor" method="post">
+
+			<textarea id="termos" disabled="disabled">Além das classes que são peça-chave dentro da arquitetura, foi adicionada também à 'última milha', classes de apoio ao desenvolvimento, ou melhor, classes que fazem o papel de ferramentas, onde possuem métodos que serão utilizados da mesma forma em todos os sistemas. Por exemplo, classes responsáveis por fazer a leitura das propriedades do sistema, classes que representam as constantes do sistema, classes que facilitaram a validação e a formatação dos dados de entrada no sistema, entre outros. A arquitetura é composta por alguns elementos, entenda-se classes, que em conjunto produzem o efeito desejado pela arquitetura como um produto final para o desenvolvimento. Para uma descrição detalhada de como cada classe trabalha, faz parte de toda a metodologia de desenvolvimento da 'última milha' a criação do Javadoc, detalhando cada método e atributo existente, para que a curva de aprendizado na utilização da 'última milha' seja a menor possível. Por esse motivo foi criado o elemento chamado Controlador dentro da arquitetura. Um controlador é responsável pela execução de um ou mais fluxos de execução que são modeladas em um caso de uso, ou seja, podemos dizer que o controlador é em si a implementação da regra de negócio. O mesmo pode ser modularizado, quando existem algumas particularidades dentro da implementação das regras, em classes que chamamos de RN (regras de negócio). O controlador faz uso do cadastro para obter as informações necessárias para o seu processamento.
+Com isso temos para cada caso de uso existente no sistema um controlador responsável por implementá-lo, assim temos um controle transacional muito mais robusto (por caso de uso ou pela interação entre eles), por exemplo, cada método dentro do controlador estará sempre sobre o mesmo contexto transacional. Até agora só falamos dos principais elementos que compõem a camada de regras de negócio, ou seja, não falamos nada de interface gráfica ou até mesmo de interações externas com as mesmas. É ai que entra o papel fundamental da fachada.
+A fachada é a divisão entre as camadas superiores às regras de negócio (Controlador) e as regras propriamente ditas. Ela é a entrada única, tanto das interfaces gráficas do usuário como de outros sistemas, para o acesso as regras de negócio. Com a fachada, conseguimos então ter uma independência de interface gráfica, como também podemos proteger e controlar o acesso às regras de negócio. Assim, por exemplo, podemos ter um sistema totalmente desenvolvido utilizando a tecnologia Swing (recurso usado para a elaboração de interfaces gráficas clientes em JAVA) e um sistema totalmente desenvolvido para WEB (usando JSP  Java Server Page) utilizando as mesmas regras de negócio. Conseguimos também facilitar e controlar o acesso às regras de negócio por outros sistemas através da fachada.
+De uma forma sucinta podemos descrever a fachada como sendo a porta de entrada para um conjunto de casos de usos, que possuem afinidades, que serão acessadas por elementos externos como interfaces gráficas e/ou sistemas. Podemos ter, por exemplo, mais de uma fachada por sistema.	</textarea>
+			<br>
+
+			<button type="submit" class="button button-block">Aceitar</button>
+		</form>
+	</div>
+</div>
+
+<script
+	src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<script th:src="@{/resources/form-css/js/index.js}"></script>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>

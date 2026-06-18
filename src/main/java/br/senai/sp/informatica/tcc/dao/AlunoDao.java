@@ -2,9 +2,9 @@ package br.senai.sp.informatica.tcc.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -70,6 +70,15 @@ public class AlunoDao implements InterfaceDao<Aluno> {
 		} else {
 			return null;
 		}
+	}
+
+	// Busca o aluno pelo login para validacao de senha com BCrypt (app mobile).
+	public Aluno buscarPorLogin(String login) {
+		TypedQuery<Aluno> query = manager.createQuery(
+				"select a from Aluno a where a.login = :login", Aluno.class);
+		query.setParameter("login", login);
+		List<Aluno> resultado = query.getResultList();
+		return resultado.isEmpty() ? null : resultado.get(0);
 	}
 
 }

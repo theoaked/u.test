@@ -1,9 +1,10 @@
 package br.senai.sp.informatica.tcc.controller;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,35 +30,38 @@ public class UsuarioController implements ServletContextAware {
 	@Autowired
 	private InstituicaoDao daoI;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@RequestMapping("logar")
 	public String logarSuper(String login, String senha, HttpSession session, Model model) {
 		model.addAttribute("area", daoA.getLista());
 		model.addAttribute("instituicao", daoI.getListaEscola());
-		UsuarioDao daoUsuario = (UsuarioDao) daoU;
-		Usuario usuarioS = daoUsuario.logar(login, senha, 0);
-		Usuario usuarioP = daoUsuario.logar(login, senha, 1);
-		Usuario usuarioA = daoUsuario.logar(login, senha, 2);
 
-		if (usuarioS != null) {
-			session.setAttribute("admLogado", usuarioS);
-			return "forward:/logou";
-		} else if (usuarioP != null) {
-			session.setAttribute("profLogado", usuarioP);
-			return "/logou";
-		} else if (usuarioA != null) {
-			session.setAttribute("userLogado", usuarioA);
-			return "/logou";
-		} else {
-			model.addAttribute("mensagem", "Login ou senha invalidos");
-			return "/login";
+		Usuario usuario = daoU.buscarPorLogin(login);
+		if (usuario != null && passwordEncoder.matches(senha, usuario.getSenha())) {
+			switch (usuario.getTipoUsuario()) {
+			case 0:
+				session.setAttribute("admLogado", usuario);
+				return "forward:/logou";
+			case 1:
+				session.setAttribute("profLogado", usuario);
+				return "logou";
+			case 2:
+				session.setAttribute("userLogado", usuario);
+				return "logou";
+			default:
+				break;
+			}
 		}
-
+		model.addAttribute("mensagem", "Login ou senha invalidos");
+		return "login";
 	}
 
 	@RequestMapping("usuario/logout")
 	public String sair(HttpSession session, Usuario usuario) {
 		session.invalidate();
-		return "/index";
+		return "index";
 	}
 
 	@Override

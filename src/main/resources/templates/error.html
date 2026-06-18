@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{template/cabecalho :: head}"></head>
+<body id="fundo">
+<th:block th:replace="~{template/cabecalho :: nav}"></th:block>
+
+<link
+	href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600'
+	rel='stylesheet' type='text/css'>
+
+<link th:href="@{/resources/form-css/css/normalize.css}" rel="stylesheet">
+<link th:href="@{/resources/form-css/css/style.css}" rel="stylesheet">
+
+<style>
+.dual-list .list-group {
+	margin-top: 8px;
+}
+
+.list-left li, .list-right li {
+	cursor: pointer;
+}
+
+.list-arrows {
+	padding-top: 100px;
+}
+
+.list-arrows button {
+	margin-bottom: 20px;
+}
+</style>
+
+<div class="form">
+	<div class="row">
+		<img th:src="@{/resources/imagens/erro1.jpg}" style="margin: auto; width: 100%; height: 500px;">
+		<br><br>
+		<h2>Código: <span th:text="${status}">500</span></h2>
+		<h4 th:text="${message}">Ocorreu um erro inesperado.</h4>
+	</div>
+</div>
+
+<th:block th:replace="~{template/rodape :: footer}"></th:block>
+</body>
+</html>
